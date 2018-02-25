@@ -16,37 +16,37 @@ In that sense, environment is like `Game`, and agents are like `Player`.
 
 import numpy as np
 
+from bandits.agent import Agent
+from bandits.bandit import Bandit
 
-# TODO: Make algorithms (agents?) their own classes
-def run_testbed(n_actions, n_steps, algo, **kwargs):
-    bandit = Bandit(n_actions)
 
-    estimated_values = np.zeros(n_actions) # TODO: Make this and below 2D, with second dimension being timesteps
-    actions_taken = np.zeros(n_actions)
+class Environment():
+    """
+    An environment is a container for bandits, i.e., it instantiates bandits and
+    fixes their probability distributions. Agents act in environments and
+    recieve rewards from environments based on those actions.
 
-    actions = np.empty(n_steps, dtype=np.int64)
-    rewards = np.empty(n_steps)
-    
-    step = 1
-    for i in range(n_steps):
-        # Decide on an action
-        actions[i] = algo(estimated_values, **kwargs)
+    Parameters
+    ----------
 
-        # Take the action and receive a reward
-        rewards[i] = bandit(actions[i])
 
-        # Update estimated values based on the action taken and the reward recieved
-        # TODO: Make this a function
-        actions_taken[actions[i]] += 1
-        estimated_values[actions[i]] += 1 / (actions_taken[actions[i]]) * (rewards[i] - estimated_values[actions[i]])
-    
-    return actions, rewards
+    Attributes
+    ----------
+    n_actions : 
 
-def run_many(n_actions, n_steps, n_runs, algo, **kwargs):
-    actions = np.empty((n_steps, n_runs), dtype=np.int64)
-    rewards = np.empty((n_steps, n_runs))
-    
-    for i in range(n_runs):
-        actions[:, i], rewards[:, i] = run_testbed(n_actions, n_steps, algo, **kwargs)
-    
-    return actions, rewards
+    bandit : 
+
+    agent : 
+
+    """
+    def __init__(self, bandit, agent):
+        assert agent.n_actions == bandit.n_arms
+        self.n_actions = agent.n_actions
+        self.bandit = bandit
+        self.agent = agent
+
+    def simulate(self, n_steps):
+        for i in range(n_steps):
+            action = self.agent.act()
+            reward = self.bandit.reward(action)
+            self.agent.update_values(reward)

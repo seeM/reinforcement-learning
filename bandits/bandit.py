@@ -22,7 +22,7 @@ class Bandit():
         self.n_arms = n_arms
         self.values = np.random.normal(loc=0, scale=1, size=n_arms)
         
-    def __call__(self, action):
+    def reward(self, action):
         """
         Sample the reward from a Gaussian distribution with mean
         given by `values` and unit variance.
