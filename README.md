@@ -6,3 +6,5 @@ Will hopefully get around to a series of related blog posts soon!
 ## TODO
 
 * Type hints
+* Split simulations into experiment and plotting modules
+* Write Example library usage here
