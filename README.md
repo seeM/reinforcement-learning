@@ -5,7 +5,4 @@ Will hopefully get around to a series of related blog posts soon!
 
 ## TODO
 
-* % Optimal Action plots
-* Rename simulation function to 10-armed testbed
-* Make a todo.txt file
 * Type hints
